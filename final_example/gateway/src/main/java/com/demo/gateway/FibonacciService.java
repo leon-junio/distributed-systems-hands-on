@@ -8,19 +8,22 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class FibonacciService {
 
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     private final Map<String, CompletableFuture<Integer>> pendingResponses = new ConcurrentHashMap<>();
+
+    private static final int TIMEOUT_S = 20; // Timeout em segundos
 
     @Cacheable(value = "fibonacci", key = "#n")
     public int fibonacci(int n) throws Exception {
@@ -31,7 +34,7 @@ public class FibonacciService {
         kafkaTemplate.send("fibo-1", correlationId + ":" + n);
 
         try {
-            return future.get(10, TimeUnit.SECONDS);
+            return future.get(TIMEOUT_S, TimeUnit.SECONDS);
         } catch (TimeoutException e) {
             pendingResponses.remove(correlationId);
             throw new RuntimeException("Timeout esperando resposta do Kafka");
