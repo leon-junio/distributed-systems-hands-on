@@ -5,3 +5,4 @@
 *.pyo
 !**/src/main/**/target/
 target/
+!.mvn/wrapper/maven-wrapper.jar

@@ -1,0 +1,16 @@
+spring:
+  redis:
+    host: redis
+    port: 6379
+  cache:
+    type: redis
+  kafka:
+    bootstrap-servers: localhost:9093
+    consumer:
+      group-id: fibonacci-service
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer

@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "gRPC",
+        "RPC",
+        "final/src/main/java/com/demo/gateway"
+    ]
+}
