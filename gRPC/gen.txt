@@ -1,0 +1,1 @@
+protoc --java_out=D:\documents\desenvolvimento\code\handsOn\gRPC compute.proto

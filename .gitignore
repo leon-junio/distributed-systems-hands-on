@@ -1,0 +1,7 @@
+*.class
+*.jar
+/__pycache__/
+*.py[cod]
+*.pyo
+!**/src/main/**/target/
+target/
